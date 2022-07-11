@@ -16,6 +16,15 @@ aws-vault add sandbox
 aws-console sandbox
 ```
 
+## Bash integration
+
+### Command completion
+
+```
+PROFILES="$(aws-vault list --profiles | xargs)"
+complete -W "$PROFILES" aws-bash
+```
+
 ## Background
 
 Based on `launcher.sh` script from https://github.com/honsiorovskyi/open-url-in-container
