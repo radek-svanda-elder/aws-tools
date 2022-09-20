@@ -12,5 +12,18 @@ while [ -h "$SOURCE" ]; do
 done
 SCRIPT_DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
+
+COLORS=(blue turquoise green yellow orange red pink purple)
+ICONS=(fingerprint briefcase dollar cart circle gift vacation fruit pet tree chill)
+
+PROFILE=$1
+
+COLOR=$(expr $(cksum -a crc <<< $PROFILE | awk '{print $1}') % ${#COLORS[@]})
+ICON=$(expr $(cksum -a bsd <<< $PROFILE | awk '{print $1}') % ${#ICONS[@]})
+
 export FIREFOX_ARGS="--new-window"
-${SCRIPT_DIR}/firefox-container.sh --name="$1" $(aws-vault login --duration=8h --region=eu-west-2 --stdout "$1")
+${SCRIPT_DIR}/firefox-container.sh \
+  --name="AWS: ${PROFILE}" \
+  --${COLORS[$COLOR]} \
+  --${ICONS[$ICON]} \
+  $(aws-vault login --duration=8h --region=eu-west-2 --stdout "$1")
