@@ -17,6 +17,15 @@ COLORS=(blue turquoise green yellow orange red pink purple)
 ICONS=(fingerprint briefcase dollar cart circle gift vacation fruit pet tree chill)
 
 PROFILE=$1
+if [ -z "$PROFILE" ]; then
+  echo "Profile not specified, trying current aws-vaule profile: $AWS_VAULT"
+  PROFILE=$AWS_VAULT
+fi
+
+if [ -z "$PROFILE" ]; then
+  echo "Please specify the AWS profile to use"
+  exit 1
+fi
 
 COLOR=$(expr $(cksum -a crc <<< $PROFILE | awk '{print $1}') % ${#COLORS[@]})
 ICON=$(expr $(cksum -a bsd <<< $PROFILE | awk '{print $1}') % ${#ICONS[@]})
@@ -26,4 +35,4 @@ ${SCRIPT_DIR}/firefox-container.sh \
   --name="AWS: ${PROFILE}" \
   --${COLORS[$COLOR]} \
   --${ICONS[$ICON]} \
-  $(aws-vault login --duration=8h --region=eu-west-2 --stdout "$1")
+  $(aws-vault login --duration=8h --region=eu-west-2 --stdout "$PROFILE")

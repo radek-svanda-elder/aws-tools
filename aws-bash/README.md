@@ -18,19 +18,19 @@ aws-bash sandbox
 
 ### Command completion
 
+Add to your `.bashrc`
+
 ```
-PROFILES="$(aws-vault list --profiles | xargs)"
-complete -W "$PROFILES" aws-bash
+. _aws-console-completion.sh
 ```
 
 ### Prompt prefix
 
-Adds yellow-ish name of the current AWS profile in front of bash prompt
+Adds name of the current AWS account in front of your prompt. 
+Color is based on account name.
 
-```bash
-__toolbox_prompt () {
-  if [ -n "$AWS_VAULT" ]; then
-    PS1="$(printf "\[\033[1;33;1;43m\]<aws:%s>\[\033[0m\]%s" $AWS_VAULT) $PS1"
-  fi
-}
+Add to your `.bashrc`
+
+```
+. _aws-console-prompt.sh
 ```

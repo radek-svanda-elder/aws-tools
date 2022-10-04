@@ -1,6 +1,7 @@
 # `aws-console`
 
 Opens AWS Console session in Firefox browser, using dedicated container.
+A color and an icon is assigned to the container based on its name.
 
 ## Dependencies
 
@@ -16,14 +17,25 @@ aws-vault add sandbox
 aws-console sandbox
 ```
 
-## Bash integration
+If used with [aws-bash](../aws-bash) you can omit the account name
+
+```
+aws-console
+```
+
+opens the same account you have active in bash in your browser.
+
+## Shell integration
 
 ### Command completion
 
+Add to your `.bashrc`
+
 ```
-PROFILES="$(aws-vault list --profiles | xargs)"
-complete -W "$PROFILES" aws-bash
+. _aws-console-completion.sh
 ```
+
+By pressing `aws-console <tab>` you should get list of possible aws accounts
 
 ## Background
 
