@@ -1,6 +1,6 @@
 # `aws-bash`
 
-Opens new AWS session in bash shell.
+Opens new AWS session in bash shell. Logs you in when your session expires automaticaly.
 
 ## Dependencies
 
@@ -28,6 +28,7 @@ Add to your `.bashrc`
 
 Adds name of the current AWS account in front of your prompt. 
 Color is based on account name.
+When you session expires the prompt function logs you back in.
 
 Add to your `.bashrc`
 
