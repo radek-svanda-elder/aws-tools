@@ -29,10 +29,18 @@ fi
 
 COLOR=$(expr $(cksum -a crc <<< $PROFILE | awk '{print $1}') % ${#COLORS[@]})
 ICON=$(expr $(cksum -a bsd <<< $PROFILE | awk '{print $1}') % ${#ICONS[@]})
+REGION=$(aws --profile $PROFILE configure get region 2>/dev/null || aws configure get region 2>/dev/null || echo 'eu-west-2')
+URL=$(aws-vault login --duration=8h --region=$REGION --stdout "$PROFILE")
+
+if [[ -z "$URL" ]]; then
+  echo "Failed to login a session, redirecting to a login page"
+  ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+  URL="https://${ACCOUNT_ID}.signin.aws.amazon.com/console"
+fi
 
 export FIREFOX_ARGS="--new-window"
 ${SCRIPT_DIR}/firefox-container.sh \
   --name="AWS: ${PROFILE}" \
   --${COLORS[$COLOR]} \
   --${ICONS[$ICON]} \
-  $(aws-vault login --duration=8h --region=eu-west-2 --stdout "$PROFILE")
+  $URL
