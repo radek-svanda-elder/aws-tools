@@ -12,13 +12,23 @@ while [ -h "$SOURCE" ]; do
 done
 SCRIPT_DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
-
-COLORS=(blue turquoise green yellow orange red pink purple)
+# terminal colors:
+# 0 	black
+# 1 	red
+# 2 	green
+# 3 	yellow
+# 4 	blue
+# 5 	magenta
+# 6 	cyan
+# 7 	white    
+# only colors matching those in bash-prompt available
+COLORS=(green yellow blue purple turquoise)
+# COLORS=(blue turquoise green yellow orange red pink purple)
 ICONS=(fingerprint briefcase dollar cart circle gift vacation fruit pet tree chill)
 
 PROFILE=$1
 if [ -z "$PROFILE" ]; then
-  echo "Profile not specified, trying current aws-vaule profile: $AWS_VAULT"
+  echo "Profile not specified, trying current aws-vault profile: $AWS_VAULT"
   PROFILE=$AWS_VAULT
 fi
 
