@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+PROFILE=$1
+shift
+aws-vault exec --duration=6h $PROFILE -- env | grep AWS

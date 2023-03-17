@@ -37,8 +37,15 @@ if [ -z "$PROFILE" ]; then
   exit 1
 fi
 
-COLOR=$(expr $(cksum -a crc <<< $PROFILE | awk '{print $1}') % ${#COLORS[@]})
-ICON=$(expr $(cksum -a bsd <<< $PROFILE | awk '{print $1}') % ${#ICONS[@]})
+if command -v firefox; then
+  FIREFOX=firefox
+fi
+if [ -f /Applications/Firefox.app/Contents/MacOS/firefox ]; then
+  FIREFOX=/Applications/Firefox.app/Contents/MacOS/firefox
+fi
+
+COLOR=$(expr $(sum <<< $PROFILE | awk '{print $1}') % ${#COLORS[@]})
+ICON=$(expr $(sum <<< $PROFILE | awk '{print $1}') % ${#ICONS[@]})
 REGION=$(aws --profile $PROFILE configure get region 2>/dev/null || aws configure get region 2>/dev/null || echo 'eu-west-2')
 URL=$(aws-vault login --duration=8h --region=$REGION --stdout "$PROFILE")
 
@@ -48,6 +55,7 @@ if [[ -z "$URL" ]]; then
   URL="https://${ACCOUNT_ID}.signin.aws.amazon.com/console"
 fi
 
+export FIREFOX
 export FIREFOX_ARGS="--new-window"
 ${SCRIPT_DIR}/firefox-container.sh \
   --name="AWS: ${PROFILE}" \

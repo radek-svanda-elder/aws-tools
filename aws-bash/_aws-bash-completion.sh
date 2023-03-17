@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # https://opensource.com/article/18/3/creating-bash-completion-script
 
-function _aws_console_profiles() {
+function _aws_vault_profiles() {
   COMPREPLY=($(compgen -W "$(aws-vault list --profiles | xargs)" "${COMP_WORDS[1]}"))
 }
 

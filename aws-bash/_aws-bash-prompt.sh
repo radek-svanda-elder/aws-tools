@@ -16,10 +16,9 @@ __aws_bash_prompt () {
     # 6 	cyan
     # 7 	white    
 
-    OFFSET=$(( $(cksum -a crc <<< $AWS_VAULT | awk '{print $1}') % 5 ))
+    OFFSET=$(( $(sum <<< $AWS_VAULT | awk '{print $1}') % 5 ))
     FG=$(( $OFFSET + 32 ))
-    BG=$(( $OFFSET + 42 ))
-    PS1="$(printf "\[\033[1;%s;1;%sm\]<aws:%s>\[\033[0m\]%s" $FG $BG $AWS_VAULT) $PS1"
+    PS1="$(printf "\[\033[0;%sm\]<aws:%s>\[\033[0m\]%s" $FG $AWS_VAULT) $PS1"
   fi
 }
 
